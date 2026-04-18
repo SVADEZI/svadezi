@@ -1,0 +1,107 @@
+name: Claude PR Review (Token-Optimized)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          git diff origin/${{ github.base_ref }}...HEAD -- \
+            '*.py' '*.js' '*.ts' '*.go' '*.java' '*.rb' '*.rs' \
+            | head -c 8000 > /tmp/pr_diff.txt
+          echo "diff_size=$(wc -c < /tmp/pr_diff.txt)" >> $GITHUB_OUTPUT
+
+      - name: Run Claude review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python3 << 'EOF'
+          import anthropic
+          import os
+          import json
+
+          client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+
+          with open("/tmp/pr_diff.txt") as f:
+              diff = f.read().strip()
+
+          if not diff:
+              print("No reviewable code changes found.")
+              exit(0)
+
+          # Prompt caching: cache the static system prompt to avoid re-tokenizing
+          # on every run — saves ~90% of system-prompt tokens after the first call.
+          response = client.messages.create(
+              model="claude-haiku-4-5-20251001",  # Haiku: cheapest, fast for reviews
+              max_tokens=512,
+              system=[
+                  {
+                      "type": "text",
+                      "text": (
+                          "You are a concise code reviewer. "
+                          "Review the diff and respond with:\n"
+                          "1. **Summary** (1 sentence)\n"
+                          "2. **Issues** (bullet list, max 5)\n"
+                          "3. **Verdict**: APPROVE / REQUEST_CHANGES\n"
+                          "Be brief. No praise, no filler."
+                      ),
+                      "cache_control": {"type": "ephemeral"},  # cache this block
+                  }
+              ],
+              messages=[
+                  {
+                      "role": "user",
+                      "content": (
+                          f"PR: {os.environ['PR_TITLE']}\n\n"
+                          f"Diff:\n```diff\n{diff}\n```"
+                      ),
+                  }
+              ],
+          )
+
+          review = response.content[0].text
+          usage = response.usage
+
+          # Surface cache stats so you can verify savings in the Actions log
+          print(f"Tokens — input: {usage.input_tokens}, "
+                f"cache_read: {getattr(usage, 'cache_read_input_tokens', 0)}, "
+                f"cache_write: {getattr(usage, 'cache_creation_input_tokens', 0)}, "
+                f"output: {usage.output_tokens}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              # Escape for multiline GitHub output
+              escaped = review.replace("%", "%25").replace("\n", "%0A").replace("\r", "%0D")
+              f.write(f"review={escaped}\n")
+
+          print(review)
+          EOF
+
+      - name: Post review comment
+        if: steps.diff.outputs.diff_size != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const review = `${{ steps.claude-review.outputs.review }}`;
+            if (!review) return;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `### Claude Code Review\n\n${review}\n\n---\n*Model: claude-haiku-4-5 · Prompt caching enabled*`,
+            });
