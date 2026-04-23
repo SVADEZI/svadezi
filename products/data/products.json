@@ -1,0 +1,58 @@
+{
+  "products": [
+    {
+      "sku": "MS-001",
+      "name": "Classic Mangal Sutra",
+      "category": "mangal-sutra",
+      "subcategory": "",
+      "metal_type": "gold",
+      "purity_karat": "22K",
+      "weight_grams": 5.2,
+      "length_cm": 45,
+      "diamond_carat": null,
+      "diamond_clarity": null,
+      "diamond_color": null,
+      "diamond_pieces": null,
+      "size": null,
+      "image_folder": "products/images/mangal-sutra",
+      "images": ["MS-001-front.jpg", "MS-001-side.jpg"],
+      "in_stock": true
+    },
+    {
+      "sku": "RG-001",
+      "name": "Gold Ring",
+      "category": "rings",
+      "subcategory": "gold-rings",
+      "metal_type": "gold",
+      "purity_karat": "18K",
+      "weight_grams": 3.8,
+      "length_cm": null,
+      "diamond_carat": null,
+      "diamond_clarity": null,
+      "diamond_color": null,
+      "diamond_pieces": null,
+      "size": "16",
+      "image_folder": "products/images/rings/gold-rings",
+      "images": ["RG-001-front.jpg"],
+      "in_stock": true
+    },
+    {
+      "sku": "RD-001",
+      "name": "Diamond Solitaire Ring",
+      "category": "rings",
+      "subcategory": "diamond-rings",
+      "metal_type": "gold",
+      "purity_karat": "18K",
+      "weight_grams": 2.9,
+      "length_cm": null,
+      "diamond_carat": 0.25,
+      "diamond_clarity": "VS1",
+      "diamond_color": "F",
+      "diamond_pieces": 1,
+      "size": "16",
+      "image_folder": "products/images/rings/diamond-rings",
+      "images": ["RD-001-front.jpg", "RD-001-top.jpg"],
+      "in_stock": true
+    }
+  ]
+}

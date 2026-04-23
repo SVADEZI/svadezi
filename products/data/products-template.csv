@@ -1,0 +1,18 @@
+sku,name,category,subcategory,metal_type,purity_karat,weight_grams,length_cm,diamond_carat,diamond_clarity,diamond_color,diamond_pieces,ring_size,image_folder,image_files,in_stock
+MS-001,Classic Mangal Sutra,mangal-sutra,,gold,22K,5.2,45,,,,,, products/images/mangal-sutra,"MS-001-front.jpg|MS-001-side.jpg",yes
+RG-001,Gold Ring,rings,gold-rings,gold,18K,3.8,,,,,,16,products/images/rings/gold-rings,RG-001-front.jpg,yes
+RD-001,Diamond Solitaire Ring,rings,diamond-rings,gold,18K,2.9,,0.25,VS1,F,1,16,products/images/rings/diamond-rings,"RD-001-front.jpg|RD-001-top.jpg",yes
+NG-001,Gold Necklace,necklaces,gold-necklaces,gold,22K,12.5,45,,,,,, products/images/necklaces/gold-necklaces,NG-001-front.jpg,yes
+ND-001,Diamond Necklace,necklaces,diamond-necklaces,gold,18K,8.3,42,1.50,SI1,G,18,,products/images/necklaces/diamond-necklaces,"ND-001-front.jpg|ND-001-close.jpg",yes
+EG-001,Gold Jhumka Earrings,earrings,jhumkas,gold,22K,6.2,,,,,,, products/images/earrings/jhumkas,EG-001-front.jpg,yes
+ED-001,Diamond Stud Earrings,earrings,studs,gold,18K,2.1,,0.50,VS2,G,2,,products/images/earrings/studs,"ED-001-front.jpg|ED-001-side.jpg",yes
+BG-001,Gold Bangle,bangles,gold-bangles,gold,22K,10.8,,,,,,,products/images/bangles/gold-bangles,BG-001-front.jpg,yes
+BD-001,Diamond Bangle,bangles,diamond-bangles,gold,18K,7.4,,0.75,SI1,H,12,,products/images/bangles/diamond-bangles,BD-001-front.jpg,yes
+PG-001,Gold Pendant,pendants,gold-pendants,gold,22K,2.5,3.5,,,,,,products/images/pendants/gold-pendants,PG-001-front.jpg,yes
+PD-001,Diamond Pendant,pendants,diamond-pendants,gold,18K,1.8,2.8,0.30,VS1,F,1,,products/images/pendants/diamond-pendants,"PD-001-front.jpg|PD-001-side.jpg",yes
+CG-001,Gold Chain,chains,gold-chains,gold,22K,5.6,45,,,,,, products/images/chains/gold-chains,CG-001-front.jpg,yes
+BR-001,Gold Bracelet,bracelets,gold-bracelets,gold,22K,7.2,18,,,,,, products/images/bracelets/gold-bracelets,BR-001-front.jpg,yes
+AN-001,Gold Anklet,anklets,gold-anklets,gold,22K,8.1,25,,,,,, products/images/anklets/gold-anklets,AN-001-front.jpg,yes
+NR-001,Gold Nose Ring,nose-rings,gold-nose-rings,gold,22K,0.4,,,,,,, products/images/nose-rings/gold-nose-rings,NR-001-front.jpg,yes
+MT-001,Maang Tikka,maang-tikka,,gold,22K,4.5,,,,,,, products/images/maang-tikka,MT-001-front.jpg,yes
+HR-001,Haar Necklace,haar,,gold,22K,22.0,55,,,,,, products/images/haar,HR-001-front.jpg,yes
