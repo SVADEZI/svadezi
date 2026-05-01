@@ -7,7 +7,8 @@
 #   2. SKU folders inside Mangalsutra/scale-image-only/
 #
 # If a SKU folder has 4 or more image files (jpg/jpeg/png/webp),
-# it is COPIED to the destination "main" mangalsutra folder.
+# a subfolder is created for it inside DEST_DIR and ONLY the image files
+# (jpg/jpeg/png/webp) are copied — PDFs and CSVs are excluded.
 # SKUs with fewer than 4 images are left untouched.
 #
 # Usage:
@@ -91,7 +92,11 @@ scan_directory() {
       if [[ -d "$DEST_DIR/$sku_name" ]]; then
         duplicate_skus+=("$sku_name (from $source_label, $count images) — already exists in destination, skipped")
       else
-        cp -R "$sku_path" "$DEST_DIR/"
+        # Create the SKU subfolder and copy ONLY image files into it
+        mkdir -p "$DEST_DIR/$sku_name"
+        find "${sku_path%/}" -maxdepth 1 -type f \
+          \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) \
+          -exec cp {} "$DEST_DIR/$sku_name/" \;
         moved_skus+=("$sku_name [$source_label] ($count images)")
       fi
     else
