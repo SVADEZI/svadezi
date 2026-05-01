@@ -6,7 +6,7 @@
 #   Mangalsutra/scale-image-only/
 #
 # If a SKU folder contains 4 or more image files (png/jpg/jpeg/webp),
-# the entire SKU folder is copied into the main Mangalsutra/ folder.
+# the entire SKU folder is MOVED into the main Mangalsutra/ folder.
 # Incomplete SKU folders are left untouched inside scale-image-only/.
 #
 # Usage:
@@ -44,7 +44,7 @@ for sku_path in "$SCALE_DIR"/*/; do
     if [[ -d "$DEST_DIR/$sku_name" ]]; then
       skipped+=("$sku_name ($count images) — already exists in Mangalsutra/, skipped")
     else
-      cp -R "${sku_path%/}" "$DEST_DIR/"
+      mv "${sku_path%/}" "$DEST_DIR/"
       copied+=("$sku_name ($count images)")
     fi
   else
