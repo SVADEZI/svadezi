@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amethyst Bloom Pendant — SVADEZI</title>
+<meta name="description" content="925 Sterling Silver pendant with a natural amethyst crystal. BIS Hallmarked, anti-tarnish, nickel-free, rhodium-coated." />
+<style>
+  :root{
+    --ink:#1d1b22; --muted:#6b6675; --line:#e9e6ef;
+    --bg:#ffffff; --soft:#f7f5fb; --brand:#6a4fb6; --brand-dk:#523c93;
+    --gold:#b08948; --ok:#2e8b57; --radius:14px; --max:1120px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+
+  /* ---- Trust ticker ---- */
+  .ticker{background:var(--ink);color:#fff;font-size:13px;text-align:center;padding:8px 14px;letter-spacing:.2px}
+  .ticker b{color:#e7d9ff}
+
+  /* ---- Header ---- */
+  header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{max-width:var(--max);margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+  .logo{font-weight:800;letter-spacing:3px;font-size:20px}
+  .nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--muted)}
+  .nav .icons{display:flex;gap:16px;font-size:14px}
+  @media(max-width:760px){.nav ul{display:none}}
+
+  /* ---- Layout ---- */
+  .wrap{max-width:var(--max);margin:auto;padding:24px 20px 120px}
+  .crumbs{font-size:12.5px;color:var(--muted);margin:6px 0 18px}
+  .pdp{display:grid;grid-template-columns:1.05fr .95fr;gap:48px}
+  @media(max-width:880px){.pdp{grid-template-columns:1fr;gap:28px}}
+
+  /* ---- Gallery ---- */
+  .gallery .main{border:1px solid var(--line);border-radius:var(--radius);aspect-ratio:1/1;overflow:hidden;position:relative;background:var(--soft)}
+  .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;text-align:center;font-weight:600;letter-spacing:.5px}
+  .ph .tag{background:rgba(0,0,0,.25);padding:6px 12px;border-radius:30px}
+  .g1{background:linear-gradient(135deg,#8a6fd1,#b89be6)}
+  .g2{background:linear-gradient(135deg,#6a4fb6,#9b7fde)}
+  .g3{background:linear-gradient(135deg,#c9b3ec,#7d62c4)}
+  .g4{background:linear-gradient(135deg,#3b2e63,#7156b8)}
+  .g5{background:linear-gradient(135deg,#efe7ff,#b9a3e6);color:#4a3a7a}
+  .thumbs{display:flex;gap:10px;margin-top:12px}
+  .thumbs button{flex:1;border:1px solid var(--line);border-radius:10px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;padding:0;background:none}
+  .thumbs button.active{border-color:var(--brand);box-shadow:0 0 0 2px rgba(106,79,182,.25)}
+  .thumbs .ph{font-size:0}
+  .badge-float{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:30px;letter-spacing:.5px}
+
+  /* ---- Buy box ---- */
+  .rating{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
+  .stars{color:#e6b800;letter-spacing:2px}
+  h1{font-size:27px;margin:8px 0 4px;font-weight:700;line-height:1.2}
+  .sku{font-size:12px;color:var(--muted)}
+  .price{display:flex;align-items:baseline;gap:12px;margin:16px 0 4px}
+  .price .now{font-size:28px;font-weight:800}
+  .price .was{color:var(--muted);text-decoration:line-through;font-size:17px}
+  .price .off{background:#eafaf1;color:var(--ok);font-weight:700;font-size:13px;padding:3px 9px;border-radius:20px}
+  .tax{font-size:12px;color:var(--muted);margin-bottom:14px}
+
+  /* price breakup */
+  .breakup{border:1px solid var(--line);border-radius:12px;padding:6px 14px;margin:14px 0}
+  .breakup summary{cursor:pointer;font-size:13.5px;font-weight:600;padding:8px 0;list-style:none}
+  .breakup summary::-webkit-details-marker{display:none}
+  .breakup summary::after{content:"＋";float:right;color:var(--brand)}
+  .breakup[open] summary::after{content:"－"}
+  .breakup table{width:100%;font-size:13px;border-collapse:collapse;margin:4px 0 10px}
+  .breakup td{padding:6px 0;border-top:1px dashed var(--line);color:var(--muted)}
+  .breakup td:last-child{text-align:right;color:var(--ink);font-weight:600}
+  .breakup tr.total td{border-top:1px solid var(--ink);color:var(--ink);font-weight:800;padding-top:8px}
+
+  /* options */
+  .opt{margin:18px 0}
+  .opt .label{font-size:13px;font-weight:700;margin-bottom:8px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chips button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px;font-size:13.5px;cursor:pointer}
+  .chips button.active{border-color:var(--brand);background:var(--soft);font-weight:700}
+  .qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .qty button{border:none;background:#fff;width:38px;height:42px;font-size:18px;cursor:pointer}
+  .qty span{width:42px;text-align:center;font-weight:700}
+
+  /* CTAs */
+  .ctas{display:flex;gap:12px;margin:20px 0 10px}
+  .btn{flex:1;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;transition:.15s}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-dk)}
+  .btn-ghost{background:#fff;border:1.5px solid var(--ink);color:var(--ink);flex:0 0 54px}
+  .btn-buy{background:var(--ink);color:#fff;width:100%;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer}
+
+  /* delivery */
+  .deliver{border:1px solid var(--line);border-radius:12px;padding:14px;margin:16px 0;font-size:13.5px}
+  .deliver .row{display:flex;align-items:center;gap:10px;margin:7px 0}
+  .deliver .dot{color:var(--ok);font-weight:800}
+  .pin{display:flex;gap:8px;margin-top:10px}
+  .pin input{flex:1;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:13.5px}
+  .pin button{border:none;background:var(--soft);color:var(--brand);font-weight:700;border-radius:9px;padding:0 16px;cursor:pointer}
+  #pinmsg{font-size:12.5px;color:var(--ok);margin-top:8px;display:none}
+
+  /* trust grid */
+  .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+  @media(max-width:520px){.trust{grid-template-columns:repeat(2,1fr)}}
+  .trust div{background:var(--soft);border-radius:12px;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:600;color:var(--brand-dk)}
+  .trust .ic{font-size:20px;display:block;margin-bottom:4px}
+
+  /* ---- Tabs ---- */
+  .tabs{max-width:var(--max);margin:60px auto 0;padding:0 20px}
+  .tabnav{display:flex;gap:6px;border-bottom:1px solid var(--line);overflow-x:auto}
+  .tabnav button{border:none;background:none;padding:14px 18px;font-size:14.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+  .tabnav button.active{color:var(--brand);border-bottom-color:var(--brand)}
+  .panel{display:none;padding:24px 2px;font-size:14.5px;color:#3b3744;max-width:760px}
+  .panel.active{display:block}
+  .panel h3{margin:0 0 10px}
+  .spec{width:100%;border-collapse:collapse}
+  .spec td{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .spec td:first-child{color:var(--muted);width:42%}
+  .spec td:last-child{font-weight:600}
+  .crystal{background:var(--soft);border-radius:14px;padding:18px 20px;margin-top:14px}
+  .crystal b{color:var(--brand-dk)}
+
+  /* reviews */
+  .rev{border-bottom:1px solid var(--line);padding:16px 0}
+  .rev .who{font-weight:700;font-size:14px}
+  .rev .stars{font-size:13px}
+  .rev p{margin:6px 0 0;color:#3b3744;font-size:14px}
+  .revphoto{display:inline-block;width:54px;height:54px;border-radius:8px;margin-right:8px;margin-top:8px;background:linear-gradient(135deg,#b89be6,#6a4fb6)}
+
+  /* cross-sell */
+  .more{max-width:var(--max);margin:64px auto 0;padding:0 20px}
+  .more h2{font-size:21px;margin-bottom:18px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .card .ph{aspect-ratio:1/1;border-radius:12px}
+  .card h4{font-size:14px;margin:10px 0 2px;font-weight:600}
+  .card .p{font-size:14px;font-weight:700}
+  .card .p span{color:var(--muted);text-decoration:line-through;font-weight:400;font-size:12.5px;margin-left:6px}
+
+  /* sticky mobile bar */
+  .sticky{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px;display:none;align-items:center;gap:12px;z-index:40;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+  .sticky .sp{flex:1}
+  .sticky .sp b{font-size:17px;display:block}
+  .sticky .sp small{color:var(--muted)}
+  .sticky button{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:13px 22px;font-weight:700;font-size:14px}
+  @media(max-width:880px){.sticky{display:flex}}
+
+  footer{margin-top:80px;background:var(--ink);color:#cfc9d8;text-align:center;padding:30px 20px;font-size:13px}
+  footer b{color:#fff;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<div class="ticker">
+  <b>BIS Hallmarked</b> 925 Silver · Anti-Tarnish · Nickel-Free · Free Shipping over ₹999 · 7-Day Easy Returns
+</div>
+
+<header>
+  <div class="nav">
+    <div class="logo">SVADEZI</div>
+    <ul><li>New In</li><li>Crystals</li><li>Pendants</li><li>Rings</li><li>Gifting</li></ul>
+    <div class="icons"><span>🔍</span><span>♡</span><span>🛒</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="crumbs">Home › Crystals › Pendants › <b>Amethyst Bloom Pendant</b></div>
+
+  <div class="pdp">
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="main">
+        <span class="badge-float">BESTSELLER</span>
+        <div class="ph g1" id="mainimg"><span class="tag">📷 On-white product shot</span></div>
+      </div>
+      <div class="thumbs" id="thumbs">
+        <button class="active" data-cls="g1" data-label="📷 On-white"><div class="ph g1"></div></button>
+        <button data-cls="g2" data-label="✨ Close-up / zoom"><div class="ph g2"></div></button>
+        <button data-cls="g3" data-label="💃 On-model worn"><div class="ph g3"></div></button>
+        <button data-cls="g4" data-label="🎥 360° video"><div class="ph g4"></div></button>
+        <button data-cls="g5" data-label="📏 Scale reference"><div class="ph g5"></div></button>
+      </div>
+    </div>
+
+    <!-- BUY BOX -->
+    <div class="buy">
+      <div class="rating"><span class="stars">★★★★★</span> 4.8 · <a href="#reviews">126 reviews</a></div>
+      <h1>Amethyst Bloom Pendant</h1>
+      <div class="sku">SKU: SVZ-PEN-0142 · 925 Sterling Silver</div>
+
+      <div class="price">
+        <span class="now">₹2,199</span>
+        <span class="was">₹3,499</span>
+        <span class="off">37% OFF</span>
+      </div>
+      <div class="tax">Inclusive of all taxes · Chain included</div>
+
+      <!-- transparent price breakup (CaratLane-style) -->
+      <details class="breakup">
+        <summary>View price breakup</summary>
+        <table>
+          <tr><td>925 Silver (rhodium-coated)</td><td>₹1,240</td></tr>
+          <tr><td>Natural Amethyst crystal</td><td>₹520</td></tr>
+          <tr><td>Making charges</td><td>₹290</td></tr>
+          <tr><td>GST (3%)</td><td>₹149</td></tr>
+          <tr class="total"><td>Total</td><td>₹2,199</td></tr>
+        </table>
+      </details>
+
+      <!-- options -->
+      <div class="opt">
+        <div class="label">Chain length</div>
+        <div class="chips" data-group="len">
+          <button class="active">16"</button><button>18"</button><button>20"</button>
+        </div>
+      </div>
+      <div class="opt">
+        <div class="label">Quantity</div>
+        <div class="qty"><button id="minus">−</button><span id="q">1</span><button id="plus">+</button></div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="ctas">
+        <button class="btn btn-primary">Add to Bag</button>
+        <button class="btn btn-ghost" title="Wishlist">♡</button>
+      </div>
+      <button class="btn-buy">Buy Now</button>
+
+      <!-- delivery -->
+      <div class="deliver">
+        <div class="row"><span class="dot">●</span> Ships in 24–48 hrs · Free shipping over ₹999</div>
+        <div class="row"><span class="dot">●</span> Cash on Delivery available</div>
+        <div class="row"><span class="dot">●</span> 7-day easy returns &amp; exchange</div>
+        <div class="pin">
+          <input id="pin" placeholder="Enter pincode to check delivery" maxlength="6" />
+          <button onclick="checkPin()">Check</button>
+        </div>
+        <div id="pinmsg">✓ Delivers by Tue, 10 Jun · COD available</div>
+      </div>
+
+      <!-- trust -->
+      <div class="trust">
+        <div><span class="ic">🛡️</span>BIS Hallmarked</div>
+        <div><span class="ic">✨</span>Anti-Tarnish</div>
+        <div><span class="ic">🤍</span>Nickel-Free</div>
+        <div><span class="ic">📜</span>Authenticity Cert.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs" id="reviews">
+  <div class="tabnav">
+    <button class="active" data-t="desc">Description</button>
+    <button data-t="spec">Specifications</button>
+    <button data-t="crystal">Crystal &amp; Care</button>
+    <button data-t="ship">Shipping &amp; Returns</button>
+    <button data-t="rev">Reviews (126)</button>
+  </div>
+
+  <div class="panel active" data-p="desc">
+    <h3>About this piece</h3>
+    <p>The Amethyst Bloom Pendant pairs a hand-set <b>natural amethyst</b> crystal with <b>925 sterling silver</b>, finished in a protective rhodium coat for lasting shine. Lightweight and skin-friendly, it's designed for everyday wear yet elegant enough to gift. Each piece arrives with a certificate of authenticity and a BIS hallmark.</p>
+  </div>
+
+  <div class="panel" data-p="spec">
+    <h3>Specifications</h3>
+    <table class="spec">
+      <tr><td>Metal</td><td>925 Sterling Silver, rhodium-coated</td></tr>
+      <tr><td>Stone</td><td>Natural Amethyst</td></tr>
+      <tr><td>Net weight</td><td>3.4 g (approx.)</td></tr>
+      <tr><td>Pendant size</td><td>14 × 9 mm</td></tr>
+      <tr><td>Chain</td><td>16" / 18" / 20" included</td></tr>
+      <tr><td>Finish</td><td>Anti-tarnish · Nickel-free</td></tr>
+      <tr><td>Certification</td><td>BIS Hallmark + Certificate of Authenticity</td></tr>
+    </table>
+  </div>
+
+  <div class="panel" data-p="crystal">
+    <h3>The meaning of Amethyst</h3>
+    <div class="crystal">
+      <p>💜 <b>Amethyst</b> is the stone of <b>calm, clarity and intuition</b> — long associated with reducing stress and bringing balance. A thoughtful piece for Aquarius &amp; Pisces, or anyone seeking a little serenity.</p>
+    </div>
+    <h3 style="margin-top:22px">Caring for your silver</h3>
+    <p>Keep away from perfume &amp; water, store in the pouch provided, and wipe gently with the cloth included. Our anti-tarnish coating keeps the shine longer — but a little care goes a long way. 💫</p>
+  </div>
+
+  <div class="panel" data-p="ship">
+    <h3>Shipping &amp; Returns</h3>
+    <p>✓ <b>Free shipping</b> on orders over ₹999 (₹49 below).<br/>
+       ✓ Dispatched within <b>24–48 hours</b>; delivered in 3–6 working days.<br/>
+       ✓ <b>Cash on Delivery</b> available across India.<br/>
+       ✓ <b>7-day easy returns &amp; exchange</b> — unworn, with tags &amp; certificate.<br/>
+       ✓ Every order is securely packed and insured in transit.</p>
+  </div>
+
+  <div class="panel" data-p="rev">
+    <h3>What customers say</h3>
+    <div class="rev"><div class="who">Ananya R. <span class="stars">★★★★★</span></div><p>Gorgeous in person and the amethyst really shines. Hasn't tarnished after two months of daily wear!</p><span class="revphoto"></span><span class="revphoto"></span></div>
+    <div class="rev"><div class="who">Meghana T. <span class="stars">★★★★★</span></div><p>Bought it for my sister's birthday — the certificate &amp; packaging made it feel premium. Loved the COD option.</p></div>
+    <div class="rev"><div class="who">Pooja S. <span class="stars">★★★★☆</span></div><p>Beautiful and skin-friendly (I have sensitive skin). Wish the chain had a 22" option.</p></div>
+  </div>
+</div>
+
+<!-- CROSS SELL -->
+<div class="more">
+  <h2>Complete the look</h2>
+  <div class="grid">
+    <div class="card"><div class="ph g2"></div><h4>Amethyst Stud Earrings</h4><div class="p">₹1,499 <span>₹2,199</span></div></div>
+    <div class="card"><div class="ph g3"></div><h4>Rose Quartz Pendant</h4><div class="p">₹2,099 <span>₹3,199</span></div></div>
+    <div class="card"><div class="ph g5"></div><h4>Silver Charm Bracelet</h4><div class="p">₹1,799 <span>₹2,699</span></div></div>
+    <div class="card"><div class="ph g4"></div><h4>Clear Quartz Ring</h4><div class="p">₹1,299 <span>₹1,999</span></div></div>
+  </div>
+</div>
+
+<!-- STICKY MOBILE BAR -->
+<div class="sticky">
+  <div class="sp"><b>₹2,199</b><small>Amethyst Bloom Pendant</small></div>
+  <button>Add to Bag</button>
+</div>
+
+<footer>
+  <b>SVADEZI</b><br/>
+  Natural crystals in 925 hallmarked silver · Handcrafted in India 🇮🇳
+</footer>
+
+<script>
+  // gallery
+  var thumbs = document.querySelectorAll('#thumbs button');
+  var mainimg = document.getElementById('mainimg');
+  thumbs.forEach(function(b){
+    b.addEventListener('click', function(){
+      thumbs.forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      mainimg.className = 'ph ' + b.dataset.cls;
+      mainimg.innerHTML = '<span class="tag">'+b.dataset.label+'</span>';
+    });
+  });
+  // chips
+  document.querySelectorAll('.chips').forEach(function(g){
+    g.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        g.querySelectorAll('button').forEach(function(x){x.classList.remove('active')});
+        b.classList.add('active');
+      });
+    });
+  });
+  // qty
+  var q=document.getElementById('q'),n=1;
+  document.getElementById('plus').onclick=function(){q.textContent=++n};
+  document.getElementById('minus').onclick=function(){if(n>1)q.textContent=--n};
+  // tabs
+  var tb=document.querySelectorAll('.tabnav button'),pn=document.querySelectorAll('.panel');
+  tb.forEach(function(b){b.onclick=function(){
+    tb.forEach(function(x){x.classList.remove('active')});b.classList.add('active');
+    pn.forEach(function(p){p.classList.toggle('active',p.dataset.p===b.dataset.t)});
+  }});
+  // pincode
+  function checkPin(){
+    var v=document.getElementById('pin').value;
+    var m=document.getElementById('pinmsg');
+    if(v.length===6){m.style.display='block';} else {m.style.display='block';m.style.color='#c0392b';m.textContent='Please enter a valid 6-digit pincode';}
+  }
+</script>
+</body>
+</html>
