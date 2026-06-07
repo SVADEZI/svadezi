@@ -1,0 +1,151 @@
+{%- comment -%}
+  sections/ring-story.liquid — iOS-safe scroll-scrub animation (image sequence)
+
+  This is Apple's native approach (AirPods / MacBook scroll pages): a sequence of
+  JPG frames drawn to <canvas> on scroll. No <video>, so none of iOS Safari's
+  autoplay / decode-suspension / async-seek bugs apply. Works identically on
+  iOS, Android, and desktop.
+
+  Features:
+    - Poster/fallback frame painted instantly (canvas is never blank)
+    - Chunked lazy-loading (frames load in batches; nearest loaded frame is shown
+      until the exact one arrives — no flicker, no blank)
+    - DPR-aware crisp rendering, "cover" fit, resize-safe
+  See README for ffmpeg export + Shopify Files upload steps.
+{%- endcomment -%}
+
+<div class="ring-story" style="height: {{ section.settings.scroll_height }}vh;">
+  <div class="ring-sticky" style="background: {{ section.settings.bg }};">
+    <canvas id="ring-canvas-{{ section.id }}" class="ring-canvas"></canvas>
+  </div>
+</div>
+
+<style>
+  .ring-story{position:relative;width:100%}
+  .ring-sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden}
+  .ring-canvas{display:block;width:100%;height:100%}
+</style>
+
+<script>
+(function(){
+  var cfg = {
+    base:    {{ section.settings.frame_base_url | json }}, // URL before the number, e.g. ".../ring_"
+    ext:     {{ section.settings.frame_ext | json }},      // ".jpg"
+    count:   {{ section.settings.frame_count | default: 120 }},
+    pad:     {{ section.settings.frame_pad   | default: 4 }},
+    start:   {{ section.settings.frame_start | default: 1 }},
+    chunk:   {{ section.settings.chunk_size  | default: 12 }}, // frames loaded per batch
+    poster:  {{ section.settings.poster | json }}             // optional fallback image URL
+  };
+
+  var wrap   = document.currentScript.previousElementSibling;
+  var canvas = document.getElementById('ring-canvas-{{ section.id }}');
+  var ctx    = canvas.getContext('2d', { alpha:false });
+  var images = new Array(cfg.count);
+  var loaded = new Array(cfg.count).fill(false);
+  var current = -1, sized = false;
+
+  function url(i){ return cfg.base + String(i).padStart(cfg.pad, '0') + cfg.ext; }
+
+  // ---- Poster: paint something immediately so the canvas is never blank ----
+  if (cfg.poster){
+    var poster = new Image();
+    poster.onload = function(){ size(); if(current < 0) drawImg(poster); };
+    poster.src = cfg.poster;
+  }
+
+  // ---- Chunked lazy-loading: load in batches starting from frame 0 ----
+  function loadChunk(from){
+    var end = Math.min(from + cfg.chunk, cfg.count);
+    for (var i = from; i < end; i++){
+      (function(idx){
+        var im = new Image();
+        im.decoding = 'async';
+        im.onload = function(){
+          loaded[idx] = true;
+          if (idx === 0){ sized || size(); draw(0, true); } // first real frame
+        };
+        im.src = url(cfg.start + idx);
+        images[idx] = im;
+      })(i);
+    }
+    if (end < cfg.count){
+      // schedule next batch when the browser is idle (keeps scroll smooth)
+      (window.requestIdleCallback || function(f){ setTimeout(f, 200); })(function(){ loadChunk(end); });
+    }
+  }
+  loadChunk(0);
+
+  // ---- Rendering ----
+  function size(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = canvas.clientWidth  * dpr;
+    canvas.height = canvas.clientHeight * dpr;
+    sized = true;
+    if (current >= 0) draw(current, true);
+  }
+
+  function drawImg(img){
+    if (!img || !img.complete || !img.naturalWidth) return false;
+    var cw = canvas.width, ch = canvas.height;
+    var r  = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    var w  = img.naturalWidth * r, h = img.naturalHeight * r;
+    ctx.drawImage(img, (cw - w)/2, (ch - h)/2, w, h);
+    return true;
+  }
+
+  function nearestLoaded(idx){
+    if (loaded[idx]) return idx;
+    for (var d = 1; d < cfg.count; d++){           // search outward for closest ready frame
+      if (idx - d >= 0 && loaded[idx - d]) return idx - d;
+      if (idx + d < cfg.count && loaded[idx + d]) return idx + d;
+    }
+    return -1;
+  }
+
+  function draw(idx, force){
+    if (!force && idx === current) return;
+    var use = nearestLoaded(idx);
+    if (use < 0) return;                            // nothing ready yet -> keep poster, no blank
+    if (drawImg(images[use])) current = idx;
+  }
+
+  // ---- Scroll mapping (throttled to one paint per frame) ----
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      var rect  = wrap.getBoundingClientRect();
+      var total = rect.height - window.innerHeight;
+      var p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+      draw(Math.min(cfg.count - 1, Math.floor(p * (cfg.count - 1))));
+      ticking = false;
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', size);
+  size();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Ring Story",
+  "settings": [
+    { "type": "header", "content": "Frame sequence" },
+    { "type": "text",   "id": "frame_base_url", "label": "Frame base URL (everything before the number)", "info": "e.g. https://cdn.shopify.com/s/files/1/xxxx/yyyy/files/ring_" },
+    { "type": "text",   "id": "frame_ext",   "label": "File extension", "default": ".jpg" },
+    { "type": "number", "id": "frame_count", "label": "Number of frames", "default": 120 },
+    { "type": "number", "id": "frame_pad",   "label": "Zero-padding digits (ring_0001 = 4)", "default": 4 },
+    { "type": "number", "id": "frame_start", "label": "First frame number", "default": 1 },
+    { "type": "number", "id": "chunk_size",  "label": "Frames loaded per batch", "default": 12 },
+    { "type": "header", "content": "Appearance" },
+    { "type": "url",    "id": "poster", "label": "Poster / fallback image (shown while frames load)" },
+    { "type": "number", "id": "scroll_height", "label": "Scroll length (vh)", "default": 300, "info": "Higher = slower scrub" },
+    { "type": "color",  "id": "bg", "label": "Background", "default": "#ffffff" }
+  ],
+  "presets": [{ "name": "Ring Story" }]
+}
+{% endschema %}

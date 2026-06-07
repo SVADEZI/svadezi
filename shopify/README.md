@@ -33,3 +33,56 @@ SVADEZI's **925 sterling silver + natural crystal** story.
 - The price-breakup table in the preview is illustrative; Shopify doesn't expose a
   metal/stone breakdown natively, so it's hardcoded in the HTML and omitted from the
   Liquid section. Add a metafield if you want it live.
+
+---
+
+# Ring Story — iOS-safe scroll-scrub animation
+
+`sections/ring-story.liquid` recreates Apple-style scroll animations (AirPods /
+MacBook pages) by scrubbing an **image sequence** on `<canvas>` — **not** a
+`<video>`. Video `currentTime` scrubbing is fundamentally unreliable on iOS Safari
+(async seeking, dropped seeks, decode suspension, Low-Power-Mode autoplay blocks),
+which is why the canvas goes blank on iPhone. Image sequences sidestep all of it
+and render identically on iOS, Android, and desktop.
+
+## 1. Export frames from your video
+```bash
+# ~120 frames, 1280px wide, good-quality JPGs. Tune fps to land on your frame count.
+ffmpeg -i ring.mp4 -vf "scale=1280:-1,fps=24" -q:v 4 ring_%04d.jpg
+```
+- Aim for **60–150 frames**. More = smoother but heavier (~120 JPGs @1280px ≈ 3–6 MB total).
+- `%04d` = 4-digit zero padding → `ring_0001.jpg`. Keep this consistent with the
+  `frame_pad` setting.
+
+## 2. Host the frames
+Upload all JPGs to **Shopify Admin → Settings → Files** (served from Shopify's CDN).
+They'll share a base URL like:
+```
+https://cdn.shopify.com/s/files/1/XXXX/YYYY/files/ring_0001.jpg
+```
+Copy everything **before the number** → that's your `frame_base_url`
+(`https://cdn.shopify.com/s/files/1/XXXX/YYYY/files/ring_`).
+
+> Don't bulk-upload frames into theme `assets/` — you'll hit theme file limits and
+> clutter the theme. Files + CDN is the right home for a frame sequence.
+
+## 3. Install the section
+1. **Edit code → Sections → Add a new section** → name it `ring-story` → paste
+   `sections/ring-story.liquid`, Save.
+2. **Customize** → add the **Ring Story** section to a page.
+3. Fill in the settings:
+   - **Frame base URL** — from step 2
+   - **File extension** — `.jpg`
+   - **Number of frames** — e.g. `120`
+   - **Zero-padding digits** — `4` (matches `%04d`)
+   - **First frame number** — `1`
+   - **Poster / fallback image** — upload one frame (e.g. frame 1) so the canvas
+     shows instantly while the sequence loads
+   - **Scroll length (vh)** — `300` (higher = slower, more cinematic scrub)
+
+## How it stays bulletproof
+- **Poster frame** paints immediately → canvas is never blank.
+- **Chunked lazy-loading** → frames load in batches during idle time; the nearest
+  already-loaded frame is shown until the exact one arrives (no flicker/blank).
+- **No video** → no autoplay gesture, no decode suspension, no async `seeked` race.
+- DPR-aware "cover" rendering, throttled to one paint per animation frame.
