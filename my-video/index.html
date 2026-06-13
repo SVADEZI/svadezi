@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <!-- gsap and fonts are vendored locally so renders work offline / behind an egress allowlist -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
+        src: url("assets/fonts/dm-sans-latin-400-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 500;
+        font-style: normal;
+        font-display: block;
+        src: url("assets/fonts/dm-sans-latin-500-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 700;
+        font-style: normal;
+        font-display: block;
+        src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 800;
+        font-style: normal;
+        font-display: block;
+        src: url("assets/fonts/dm-sans-latin-800-normal.woff2") format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #05060a;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* ---- Background ---------------------------------------------------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(120% 120% at 50% 0%, #14172b 0%, #05060a 60%);
+        overflow: hidden;
+      }
+      /* Two soft colour blobs the timeline drifts for slow ambient motion. */
+      .glow {
+        position: absolute;
+        width: 1000px;
+        height: 1000px;
+        border-radius: 50%;
+        filter: blur(120px);
+        will-change: transform;
+      }
+      .glow-a {
+        top: -260px;
+        left: -200px;
+        background: radial-gradient(circle, rgba(124, 92, 255, 0.55) 0%, rgba(124, 92, 255, 0) 70%);
+      }
+      .glow-b {
+        bottom: -200px;
+        right: -240px;
+        background: radial-gradient(circle, rgba(0, 149, 246, 0.5) 0%, rgba(0, 149, 246, 0) 70%);
+      }
+      /* Subtle vignette to seat the text. */
+      #bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(80% 80% at 50% 42%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.55) 100%);
+      }
+
+      /* ---- Title scene --------------------------------------------------- */
+      #title {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 120px 360px;
+        gap: 28px;
+      }
+      .kicker {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: 0.42em;
+        color: #8b93b8;
+        text-transform: uppercase;
+        padding-left: 0.42em; /* compensate trailing letter-spacing for true centering */
+      }
+      .headline {
+        font-size: 160px;
+        font-weight: 800;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        background: linear-gradient(180deg, #ffffff 0%, #c8ccff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .subtitle {
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: #aab0d4;
+        max-width: 760px;
+      }
+      .rule {
+        width: 96px;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #7c5cff 0%, #0095f6 100%);
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="9"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- Background: full-bleed animated gradient, behind everything -->
+      <div
+        id="bg"
+        class="clip"
+        data-start="0"
+        data-duration="9"
+        data-track-index="0"
+        style="z-index: 0"
+      >
+        <div class="glow glow-a" data-layout-allow-overflow></div>
+        <div class="glow glow-b" data-layout-allow-overflow></div>
+      </div>
+
+      <!-- Title scene -->
+      <div
+        id="title"
+        class="clip"
+        data-start="0"
+        data-duration="9"
+        data-track-index="1"
+        style="z-index: 2"
+      >
+        <div class="kicker">HeyGen</div>
+        <h1 class="headline">HyperFrames</h1>
+        <div class="rule"></div>
+        <p class="subtitle">HTML is the source of truth for video.</p>
+      </div>
+
+      <!-- Instagram follow CTA (registry block) wired in as a bottom lower-third -->
+      <div
+        id="cta-instagram"
+        class="clip"
+        data-composition-id="instagram-follow"
+        data-composition-src="compositions/instagram-follow.html"
+        data-start="4.5"
+        data-duration="4.5"
+        data-width="1080"
+        data-height="1920"
+        data-track-index="2"
+        style="z-index: 10"
+      ></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Ambient background drift across the whole composition.
+      tl.fromTo(".glow-a", { x: -60, y: -40 }, { x: 80, y: 60, duration: 9, ease: "none" }, 0);
+      tl.fromTo(".glow-b", { x: 60, y: 40 }, { x: -80, y: -50, duration: 9, ease: "none" }, 0);
+
+      // Title entrance — animate INTO the static CSS layout.
+      tl.from(".kicker", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.2);
+      tl.from(".headline", { y: 80, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.35);
+      tl.from(".rule", { scaleX: 0, transformOrigin: "center", duration: 0.5, ease: "power2.out" }, 0.7);
+      tl.from(".subtitle", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.8);
+
+      // As the Instagram CTA slides up, ease the title upward to make room.
+      tl.to("#title", { y: -120, duration: 0.8, ease: "power2.inOut" }, 4.4);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
