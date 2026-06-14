@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "skills": {
+    "embedded-captions": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/embedded-captions/SKILL.md",
+      "computedHash": "133c9401ef6b831470fe4256686071a26afb2caeacb2cbe8faad540b96d3473b"
+    },
+    "faceless-explainer": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/faceless-explainer/SKILL.md",
+      "computedHash": "3bdbfebd0869f96c028231cf8e5b99fb9db56a2215b858fe666a39ba40fa77b3"
+    },
+    "general-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/general-video/SKILL.md",
+      "computedHash": "7f14151bb3082d3688aec82f65bce323205a37d654974ab093d382e0f00527f6"
+    },
+    "graphic-overlays": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/graphic-overlays/SKILL.md",
+      "computedHash": "91394635fcea1eec2f4cdce914c4bce27f658ebee3c66f6f5ec741d74706bf05"
+    },
+    "hyperframes-animation": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-animation/SKILL.md",
+      "computedHash": "d9da94dd7074eb539ca246260ce46dc32797316a243aa6d3bd17c43fc864f9ac"
+    },
+    "hyperframes-cli": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-cli/SKILL.md",
+      "computedHash": "3e36fcfc33ad3d07ce0d2c9bd9a9f7b96ece45881e7930c24a31ef2dd6d2b4ee"
+    },
+    "hyperframes-core": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-core/SKILL.md",
+      "computedHash": "5a5a209bcca0b2251f224d725dec37358fc402f20d40f22a3c3885843bd57cc3"
+    },
+    "hyperframes-creative": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-creative/SKILL.md",
+      "computedHash": "d2a3fa822a57e8acd3c9ea8375abf5c3a10717df1970ac8a609ef66da9454b6b"
+    },
+    "hyperframes-media": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-media/SKILL.md",
+      "computedHash": "b07f9ef6f08b79373ebdb0f253bfdee80d5644f22a422115e10da5eb29dfffa8"
+    },
+    "hyperframes-read-first": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-read-first/SKILL.md",
+      "computedHash": "b6fbe59e494af36470ff042f39b472526c5510274090d6bd1ca4296fa654d419"
+    },
+    "hyperframes-registry": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-registry/SKILL.md",
+      "computedHash": "d3c04e89bac3283f530c9d55aa83b1f307b78906eed673192f9ccd9a5849add8"
+    },
+    "motion-graphics": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/motion-graphics/SKILL.md",
+      "computedHash": "af8fac2a5380050e3ebd964c3617f282282190cbba77ba1d89408d1f06ff458c"
+    },
+    "pr-to-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/pr-to-video/SKILL.md",
+      "computedHash": "39c84ece13f1f7229dc201f71b703e7f5b14b1107306ce983d07cdd2ccdb32d6"
+    },
+    "product-launch-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/product-launch-video/SKILL.md",
+      "computedHash": "36da1e94a2bb92007999281687cc917034fa0aff1984db981d0906f1d60e4ff8"
+    },
+    "remotion-to-hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-to-hyperframes/SKILL.md",
+      "computedHash": "55993a0fb7efa57fad9580c0a81e4bab942e7799f03f64a76b08ef6ca566162c"
+    },
+    "website-to-video": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/website-to-video/SKILL.md",
+      "computedHash": "e702db160b978cf11a219669a65a4afac47e9d05c6891715e45334cb74b3054c"
+    }
+  }
+}
