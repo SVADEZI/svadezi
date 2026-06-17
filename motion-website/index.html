@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KINETIK — Motion Design Studio</title>
+<meta name="description" content="KINETIK is a motion design studio crafting kinetic brand systems, title sequences, and scroll-driven web experiences." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0A0A;
+    --bg-soft:#111111;
+    --fg:#F4F4F0;
+    --muted:#8A8A82;
+    --accent:#E4FF1A;          /* acid */
+    --accent-2:#06B6D4;        /* cyan secondary */
+    --line:#262626;
+    --space:8px;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    --ease-in:cubic-bezier(.7,0,.84,0);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#000}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Archivo',sans-serif;font-weight:900;line-height:.92;letter-spacing:-.02em;text-transform:uppercase}
+
+  .wrap{max-width:1400px;margin:0 auto;padding:0 24px}
+
+  /* ---------- scroll progress ---------- */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:200;transition:width .1s linear}
+
+  /* ---------- custom cursor ---------- */
+  .cursor{position:fixed;top:0;left:0;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:300;transform:translate(-50%,-50%);transition:width .25s var(--ease-out),height .25s var(--ease-out),background .25s,opacity .25s;mix-blend-mode:difference}
+  .cursor.is-hover{width:64px;height:64px;background:var(--fg)}
+  @media (hover:none){.cursor{display:none}}
+
+  /* ---------- nav ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:2px solid transparent;transition:background .3s,border-color .3s}
+  header.scrolled{background:rgba(10,10,10,.8);backdrop-filter:blur(12px);border-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .brand{font-family:'Archivo';font-weight:900;font-size:22px;letter-spacing:-.04em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+  .brand .dot{width:12px;height:12px;background:var(--accent);border-radius:50%;animation:pulse 2.4s var(--ease-out) infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.5);opacity:.5}}
+  .nav-links{display:flex;gap:32px;align-items:center}
+  .nav-links a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;position:relative;padding:4px 0}
+  .nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .3s var(--ease-out)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{border:2px solid var(--fg);padding:10px 18px;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em;transition:background .15s,color .15s}
+  .nav-cta:hover{background:var(--accent);border-color:var(--accent);color:#000}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer}
+  .burger span{width:28px;height:2px;background:var(--fg);transition:.3s}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative}
+  .hero-eyebrow{display:flex;align-items:center;gap:14px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);margin-bottom:28px}
+  .hero-eyebrow .bar{width:48px;height:2px;background:var(--accent)}
+  .hero h1{font-size:clamp(3.2rem,15vw,15rem);will-change:transform}
+  .hero h1 .ln{display:block;overflow:hidden}
+  .hero h1 .ln span{display:block;transform:translateY(110%);transition:transform 1s var(--ease-out)}
+  .hero.in h1 .ln span{transform:translateY(0)}
+  .hero h1 .ln:nth-child(2) span{transition-delay:.08s}
+  .hero h1 .ln:nth-child(3) span{transition-delay:.16s}
+  .hero h1 em{font-style:normal;color:var(--accent);-webkit-text-stroke:0}
+  .hero h1 .outline{color:transparent;-webkit-text-stroke:2px var(--fg)}
+  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-top:48px;flex-wrap:wrap}
+  .hero-bottom p{max-width:46ch;color:var(--muted);font-size:clamp(1rem,1.4vw,1.25rem)}
+  .hero-bottom p strong{color:var(--fg);font-weight:600}
+  .scroll-hint{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .scroll-hint .arrow{display:inline-block;animation:bob 1.6s var(--ease-out) infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* ---------- marquee ---------- */
+  .marquee{border-top:2px solid var(--line);border-bottom:2px solid var(--line);background:var(--accent);color:#000;overflow:hidden;white-space:nowrap;padding:18px 0}
+  .marquee-track{display:inline-flex;gap:48px;animation:scroll-x 22s linear infinite;will-change:transform}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee-track span{font-family:'Archivo';font-weight:900;font-size:clamp(1.4rem,3vw,2.4rem);text-transform:uppercase;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:48px}
+  .marquee-track span::after{content:'✸';color:#000}
+  @keyframes scroll-x{to{transform:translateX(-50%)}}
+
+  /* ---------- section scaffolding ---------- */
+  section{position:relative}
+  .section-pad{padding:clamp(80px,12vw,180px) 0}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:64px;flex-wrap:wrap}
+  .sec-num{font-family:'Archivo';font-weight:900;font-size:14px;color:var(--accent);letter-spacing:.1em}
+  .sec-head h2{font-size:clamp(2.4rem,7vw,6rem)}
+  .sec-head p{color:var(--muted);max-width:38ch}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- work grid ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+  .project{grid-column:span 6;border:2px solid var(--line);background:var(--bg-soft);padding:32px;position:relative;overflow:hidden;cursor:pointer;transition:transform .5s var(--ease-out)}
+  .project:nth-child(3),.project:nth-child(4){grid-column:span 6}
+  .project::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateY(101%);transition:transform .5s var(--ease-out);z-index:0}
+  .project:hover::before{transform:translateY(0)}
+  .project>*{position:relative;z-index:1;transition:color .35s}
+  .project:hover .p-cat,.project:hover .p-title,.project:hover .p-meta,.project:hover .p-arrow{color:#000}
+  .p-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:80px}
+  .p-cat{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+  .p-arrow{font-size:28px;transform:rotate(-45deg);transition:transform .4s var(--ease-out),color .35s}
+  .project:hover .p-arrow{transform:rotate(0)}
+  .p-title{font-family:'Archivo';font-weight:800;font-size:clamp(1.8rem,3.4vw,3rem);text-transform:uppercase;line-height:.95}
+  .p-meta{font-size:13px;color:var(--muted);margin-top:14px;letter-spacing:.04em}
+
+  /* ---------- services ---------- */
+  .services{display:grid;grid-template-columns:repeat(2,1fr);border-top:2px solid var(--line);border-left:2px solid var(--line)}
+  .service{border-right:2px solid var(--line);border-bottom:2px solid var(--line);padding:40px;display:flex;flex-direction:column;gap:18px;transition:background .3s}
+  .service:hover{background:var(--bg-soft)}
+  .service .s-num{font-family:'Archivo';font-weight:900;color:var(--muted);font-size:14px}
+  .service h3{font-size:clamp(1.4rem,2.6vw,2.2rem)}
+  .service:hover h3{color:var(--accent)}
+  .service p{color:var(--muted);font-size:15px}
+
+  /* ---------- stats ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:2px solid var(--line);padding-top:56px}
+  .stat .num{font-family:'Archivo';font-weight:900;font-size:clamp(3rem,8vw,7rem);line-height:1;color:var(--accent)}
+  .stat .lab{text-transform:uppercase;letter-spacing:.1em;font-size:13px;color:var(--muted);margin-top:8px}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .about-grid .big{font-family:'Archivo';font-weight:800;font-size:clamp(1.6rem,3.4vw,3rem);line-height:1.05;text-transform:uppercase}
+  .about-grid .big em{font-style:normal;color:var(--accent)}
+  .about-grid .copy p{color:var(--muted);margin-bottom:20px}
+
+  /* ---------- CTA ---------- */
+  .cta{text-align:center;border-top:2px solid var(--line)}
+  .cta h2{font-size:clamp(3rem,13vw,12rem);line-height:.86}
+  .cta h2 .outline{color:transparent;-webkit-text-stroke:2px var(--fg)}
+  .magnetic{display:inline-flex;align-items:center;gap:14px;margin-top:48px;background:var(--accent);color:#000;font-family:'Archivo';font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(1rem,1.6vw,1.4rem);padding:22px 40px;border:2px solid var(--accent);transition:background .15s,color .15s;will-change:transform}
+  .magnetic:hover{background:transparent;color:var(--accent)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:2px solid var(--line);padding:56px 0 40px}
+  .foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:48px}
+  .foot-col h4{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:18px;font-family:'Space Grotesk';font-weight:600}
+  .foot-col a{display:block;font-size:15px;padding:5px 0;color:var(--fg);transition:color .2s,padding-left .25s var(--ease-out)}
+  .foot-col a:hover{color:var(--accent);padding-left:8px}
+  .foot-brand .brand{font-size:clamp(2.5rem,8vw,6rem);margin-bottom:10px}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--line);padding-top:24px;color:var(--muted);font-size:13px;flex-wrap:wrap;gap:12px}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .burger{display:flex}
+    .project,.project:nth-child(n){grid-column:span 12}
+    .services{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr);row-gap:40px}
+    .about-grid{grid-template-columns:1fr;gap:32px}
+    .p-top{margin-bottom:48px}
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal,.hero h1 .ln span{opacity:1!important;transform:none!important}
+    .cursor{display:none}
+    .marquee-track{animation:none;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="#top" class="brand"><span class="dot"></span>KINETIK</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#about">Studio</a>
+      <a href="#contact" class="nav-cta">Start a project</a>
+    </nav>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero wrap" id="hero">
+    <div class="hero-eyebrow"><span class="bar"></span>Motion Design Studio — Est. 2018</div>
+    <h1>
+      <span class="ln"><span>We make</span></span>
+      <span class="ln"><span class="outline">brands</span></span>
+      <span class="ln"><span><em>move.</em></span></span>
+    </h1>
+    <div class="hero-bottom">
+      <p><strong>KINETIK</strong> is a motion-first design studio building kinetic brand systems, title sequences, and scroll-driven web experiences for ambitious teams.</p>
+      <div class="scroll-hint">Scroll to explore <span class="arrow">↓</span></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Brand Motion</span><span>Title Sequences</span><span>3D &amp; CGI</span><span>Web Experiences</span><span>Art Direction</span>
+      <span>Brand Motion</span><span>Title Sequences</span><span>3D &amp; CGI</span><span>Web Experiences</span><span>Art Direction</span>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="section-pad" id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="sec-num">[ 01 / WORK ]</div><h2>Selected<br>Work</h2></div>
+        <p>A small set of recent collaborations across brand, film, and product.</p>
+      </div>
+      <div class="work-grid">
+        <article class="project reveal" data-tilt><div class="p-top"><span class="p-cat">Brand System · 2025</span><span class="p-arrow">↗</span></div><h3 class="p-title">Nova<br>Rebrand</h3><div class="p-meta">Motion identity · Logo animation · Guidelines</div></article>
+        <article class="project reveal" data-tilt><div class="p-top"><span class="p-cat">Title Sequence · 2025</span><span class="p-arrow">↗</span></div><h3 class="p-title">After<br>Dark</h3><div class="p-meta">Direction · 3D · Compositing</div></article>
+        <article class="project reveal" data-tilt><div class="p-top"><span class="p-cat">Web Experience · 2024</span><span class="p-arrow">↗</span></div><h3 class="p-title">Pulse<br>Festival</h3><div class="p-meta">Scroll story · WebGL · Sound design</div></article>
+        <article class="project reveal" data-tilt><div class="p-top"><span class="p-cat">Product · 2024</span><span class="p-arrow">↗</span></div><h3 class="p-title">Orbit<br>OS</h3><div class="p-meta">Micro-interactions · Prototype · UI motion</div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section-pad" id="services" style="background:var(--bg-soft)">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><div class="sec-num">[ 02 / CAPABILITIES ]</div><h2>What we<br>do</h2></div>
+        <p>End-to-end motion, from the first frame of strategy to the last keyframe of delivery.</p>
+      </div>
+      <div class="services reveal">
+        <div class="service"><span class="s-num">01</span><h3>Brand in Motion</h3><p>Kinetic identity systems, animated logos, and motion guidelines that keep your brand alive across every screen.</p></div>
+        <div class="service"><span class="s-num">02</span><h3>Film &amp; Title Design</h3><p>Title sequences, broadcast packages, and short-form film with direction, 3D, and compositing under one roof.</p></div>
+        <div class="service"><span class="s-num">03</span><h3>Web Experiences</h3><p>Scroll-driven, WebGL-powered sites engineered for 60fps — narrative, interaction, and performance together.</p></div>
+        <div class="service"><span class="s-num">04</span><h3>Product Motion</h3><p>Micro-interactions, transitions, and prototype motion that make digital products feel effortless and fast.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section-pad">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><div class="num" data-count="120">0</div><div class="lab">Projects shipped</div></div>
+        <div class="stat"><div class="num" data-count="38">0</div><div class="lab">Awards &amp; mentions</div></div>
+        <div class="stat"><div class="num" data-count="60">0</div><div class="lab">FPS, always</div></div>
+        <div class="stat"><div class="num" data-count="7">0</div><div class="lab">Years in motion</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section-pad" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal"><div><div class="sec-num">[ 03 / STUDIO ]</div></div></div>
+      <div class="about-grid reveal">
+        <p class="big">We believe motion is not decoration — it's <em>meaning in time.</em> Every frame should earn its place.</p>
+        <div class="copy">
+          <p>KINETIK is a compact, senior team of directors, designers, and engineers. We work in tight loops — no handoffs, no telephone game — so the idea on the whiteboard survives all the way to the final render.</p>
+          <p>From global brand launches to indie title cards, we obsess over timing, weight, and rhythm. The result feels inevitable, the way good motion should.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta section-pad" id="contact">
+    <div class="wrap">
+      <h2 class="reveal">Let's<br><span class="outline">make it</span><br>move</h2>
+      <a href="mailto:hello@kinetik.studio" class="magnetic reveal" id="magnetic">Start a project <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><div class="brand" style="letter-spacing:-.04em">KINETIK</div><p style="color:var(--muted);max-width:30ch">Motion design studio. Crafting brands that move, since 2018.</p></div>
+      <div class="foot-col"><h4>Studio</h4><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+      <div class="foot-col"><h4>Social</h4><a href="#" rel="noopener">Instagram</a><a href="#" rel="noopener">Vimeo</a><a href="#" rel="noopener">Behance</a><a href="#" rel="noopener">LinkedIn</a></div>
+      <div class="foot-col"><h4>Contact</h4><a href="mailto:hello@kinetik.studio">hello@kinetik.studio</a><a href="tel:+10000000000">+1 (000) 000-0000</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 KINETIK Studio</span><span>Built in motion ✸</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll progress + sticky header */
+  var progress = document.getElementById('progress');
+  var header = document.getElementById('header');
+  function onScroll(){
+    var st = window.scrollY;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h>0 ? (st/h)*100 : 0) + '%';
+    header.classList.toggle('scrolled', st > 40);
+    if(!reduce){
+      var hero = document.querySelector('.hero h1');
+      if(hero && st < window.innerHeight){ hero.style.transform = 'translateY(' + (st*0.18) + 'px)'; hero.style.opacity = String(Math.max(0, 1 - st/600)); }
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* hero intro */
+  requestAnimationFrame(function(){ document.getElementById('hero').classList.add('in'); });
+
+  /* reveal on scroll */
+  if('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* count-up stats */
+  function countUp(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    if(reduce){ el.textContent = target; return; }
+    var start = null, dur = 1600;
+    function step(ts){ if(!start) start = ts; var p = Math.min((ts-start)/dur,1); var eased = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(eased*target); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var sObs = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); sObs.unobserve(e.target); } }); }, {threshold:0.6});
+    document.querySelectorAll('[data-count]').forEach(function(el){ sObs.observe(el); });
+  } else { document.querySelectorAll('[data-count]').forEach(countUp); }
+
+  /* custom cursor + hover states */
+  var cursor = document.getElementById('cursor');
+  if(cursor && !reduce && window.matchMedia('(hover:hover)').matches){
+    var cx=0,cy=0,tx=0,ty=0;
+    document.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; });
+    (function loop(){ cx += (tx-cx)*0.2; cy += (ty-cy)*0.2; cursor.style.left=cx+'px'; cursor.style.top=cy+'px'; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a,button,.project,.magnetic').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cursor.classList.add('is-hover'); });
+      el.addEventListener('mouseleave', function(){ cursor.classList.remove('is-hover'); });
+    });
+  } else if(cursor){ cursor.style.display='none'; }
+
+  /* magnetic button */
+  var mag = document.getElementById('magnetic');
+  if(mag && !reduce && window.matchMedia('(hover:hover)').matches){
+    mag.addEventListener('mousemove', function(e){
+      var r = mag.getBoundingClientRect();
+      var x = e.clientX - (r.left + r.width/2);
+      var y = e.clientY - (r.top + r.height/2);
+      mag.style.transform = 'translate(' + x*0.3 + 'px,' + y*0.4 + 'px)';
+    });
+    mag.addEventListener('mouseleave', function(){ mag.style.transform = 'translate(0,0)'; });
+  }
+
+  /* subtle project tilt */
+  if(!reduce && window.matchMedia('(hover:hover)').matches){
+    document.querySelectorAll('[data-tilt]').forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var rx = ((e.clientY - r.top)/r.height - .5) * -6;
+        var ry = ((e.clientX - r.left)/r.width - .5) * 6;
+        card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+      });
+      card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
+    });
+  }
+
+  /* mobile menu (simple smooth-scroll fallback already handled by anchors) */
+  var burger = document.querySelector('.burger');
+  if(burger){ burger.addEventListener('click', function(){ document.querySelector('#work').scrollIntoView(); }); }
+})();
+</script>
+</body>
+</html>
