@@ -1,0 +1,6 @@
+# Byte-compiled artifacts from the bundled claude-seo Python tools.
+__pycache__/
+*.py[cod]
+
+# Local settings overrides (claude-seo hook config lives in settings.json).
+settings.local.json
