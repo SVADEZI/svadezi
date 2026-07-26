@@ -38,11 +38,39 @@ interpreter:
 ./.claude/skills/seo/bin/claude-seo run <script.py>
 ```
 
-The launcher self-locates and stores its virtualenv outside the repo (under
-`$XDG_DATA_HOME`), so nothing it creates gets committed. `setup` has not been run
-here — run it in any session that needs the Python-backed checks (fetching,
-rendering, PageSpeed, backlinks). Skills that only reason over content work
-without it.
+The launcher self-locates. In `manual` install mode — which this is — it resolves
+its data dir to the **skill root itself**, so `setup` writes all of the following
+*inside* the repo:
+
+| Generated path | Size | Purpose |
+|---|---|---|
+| `.claude/skills/seo/.venv/` | ~800 MB | isolated Python environment |
+| `.claude/skills/seo/ms-playwright/` | varies | Playwright browser cache |
+| `.claude/skills/seo/runtime-state.json` | tiny | setup state |
+
+All three are per-machine build output and are gitignored in `.claude/.gitignore`.
+Re-run `setup` in each new container; never commit them.
+
+Skills that only reason over content work without `setup`. The Python-backed
+checks (fetching, PageSpeed, backlinks, sitemaps) need the core runtime.
+
+### Chromium / rendered-page features
+
+Rendered-mode features (SPA rendering, screenshots, the `seo-visual` agent) need
+Chromium, which is **not available in the Claude Code remote environment**:
+
+- The network policy rejects `cdn.playwright.dev` (`403 host not permitted`), so
+  `playwright install chromium` cannot download it.
+- The environment pre-installs Chromium 141 at `/opt/pw-browsers`
+  (Playwright build 1194), but that pairs only with `playwright==1.56.0`.
+- `requirements.txt` pins `playwright>=1.59.0` for the CVE-2025-59288 fix, and no
+  version at or above 1.59.0 ships build 1194 (1.59.0→1217, 1.60.0→1223,
+  1.61.0→1228).
+
+So the pinned runtime and the available browser cannot be reconciled without
+either allowing `cdn.playwright.dev` in the environment's network policy (the
+clean fix) or downgrading below the CVE pin. `render_page.py` degrades with a
+clear error rather than crashing, and static-fetch analysis is unaffected.
 
 Docs in this install have had the bare `claude-seo` command rewritten to the
 launcher path above, matching what upstream's manual installer does for `$HOME`.

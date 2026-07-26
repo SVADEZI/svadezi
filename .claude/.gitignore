@@ -2,5 +2,13 @@
 __pycache__/
 *.py[cod]
 
+# claude-seo managed runtime. In "manual" install mode the launcher resolves its
+# data dir to the skill root itself, so the virtualenv (~800 MB), the Playwright
+# browser cache, and the runtime state file all land inside the repo. Generated
+# per-machine by `claude-seo setup` — never commit them.
+skills/seo/.venv/
+skills/seo/ms-playwright/
+skills/seo/runtime-state.json
+
 # Local settings overrides (claude-seo hook config lives in settings.json).
 settings.local.json
