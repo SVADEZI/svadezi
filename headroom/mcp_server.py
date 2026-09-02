@@ -22,19 +22,25 @@ __all__ = ["build_server", "main"]
 
 
 def build_server():
-    """Construct and return the FastMCP server instance.
+    """Construct and return the MCP server instance.
 
-    Imported lazily so the rest of Headroom works without the ``mcp`` package.
+    The SDK is imported lazily so the rest of Headroom works without the
+    optional ``mcp`` package installed.
     """
+    # The SDK renamed FastMCP to MCPServer in mcp 2.0; both expose the same
+    # ``.tool()`` decorator and ``.run()`` signature, so support either.
     try:
-        from mcp.server.fastmcp import FastMCP
-    except ImportError as exc:  # pragma: no cover - depends on optional dep
-        raise SystemExit(
-            "The MCP server needs the 'mcp' package. "
-            "Install it with:  pip install headroom-ai[mcp]"
-        ) from exc
+        from mcp.server.mcpserver import MCPServer as server_cls  # mcp >= 2.0
+    except ImportError:
+        try:
+            from mcp.server.fastmcp import FastMCP as server_cls  # mcp 1.x
+        except ImportError as exc:  # pragma: no cover - depends on optional dep
+            raise SystemExit(
+                "The MCP server needs the 'mcp' package. "
+                "Install it with:  pip install headroom-ai[mcp]"
+            ) from exc
 
-    server = FastMCP("headroom")
+    server = server_cls("headroom")
 
     @server.tool()
     def headroom_compress(

@@ -64,11 +64,19 @@ CodeCompressor().compress(source, "python").text
 
 ### MCP server
 Exposes compression to any MCP client (e.g. Claude Code) via three tools:
-`headroom_compress`, `headroom_retrieve`, `headroom_stats`.
+`headroom_compress`, `headroom_retrieve`, `headroom_stats`. Works with both
+mcp 1.x (`FastMCP`) and mcp 2.x (`MCPServer`).
 
 ```bash
+pip install -e ".[mcp]"
 headroom mcp
 ```
+
+This repo ships a `.mcp.json` that registers the server for Claude Code. It
+points at `${CLAUDE_PROJECT_DIR}/.venv/bin/headroom` — an absolute path rather
+than a bare `headroom`, because MCP servers are spawned at session start and
+cannot rely on the SessionStart hook having already put the venv on `PATH`. If
+you install headroom globally instead, `"command": "headroom"` is enough.
 
 ### Proxy server
 A drop-in proxy for any OpenAI-compatible API. Point your client's base URL at

@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "headroom": {
-      "command": "headroom",
+      "command": "${CLAUDE_PROJECT_DIR}/.venv/bin/headroom",
       "args": ["mcp"]
     }
   }
