@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "headroom-ai"
+version = "0.1.0"
+description = "Context compression for LLM agents - fewer tokens, same answers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["llm", "compression", "tokens", "agents", "mcp", "proxy"]
+dependencies = []
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+dev = ["pytest>=7"]
+all = ["mcp>=1.0"]
+
+[project.scripts]
+headroom = "headroom.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["headroom*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
